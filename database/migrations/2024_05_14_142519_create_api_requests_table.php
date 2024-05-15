@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('api_requests', function (Blueprint $table) {
             $table->id();
             $table->string('tagged');
-            $table->date('todate');
-            $table->date('fromdate');
-            $table->string('response_data');
+            $table->integer('todate')->nullable();
+            $table->integer('fromdate')->nullable();
+            $table->longText('response_data');
             $table->timestamps();
         });
     }

@@ -31,7 +31,7 @@ class ApiRequestController extends Controller
     
         if($data)
         {
-            return response()->json($data->response_data);
+            return response()->json(json_decode($data->response_data, true));
         } 
         else
         {

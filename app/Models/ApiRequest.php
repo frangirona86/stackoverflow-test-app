@@ -10,7 +10,7 @@ class ApiRequest extends Model
     use HasFactory;
 
 
-    protected $filliable = [
+    protected $fillable = [
         'tagged',
         'todate',
         'fromdate',

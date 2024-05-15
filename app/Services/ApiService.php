@@ -3,6 +3,9 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use App\Models\ApiRequest;
+use Illuminate\Support\Facades\Validator;
+
 
 class ApiService 
 {
@@ -17,11 +20,16 @@ class ApiService
             'tagged' => $tagged,
             'site' => 'stackoverflow'
         ]);
-        
-        if($response)
-        {
-            
-        }
+
+
+      
+        ApiRequest::create([
+                'fromdate' => $fromdate,
+                'todate' => $todate,
+                'tagged' => $tagged,    
+                'response_data' => $response->body()
+        ]);
+      
 
         return $response;
    } 

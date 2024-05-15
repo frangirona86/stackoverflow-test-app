@@ -50,7 +50,7 @@ class BaseRequest extends FormRequest
         throw new HttpResponseException(response()->json([
             'success' => false,
             'message' => 'Validation errors',
-            'errors' => $errors
+            'errors' => $errors = $validator->errors()
         ], 422));
         
     }
