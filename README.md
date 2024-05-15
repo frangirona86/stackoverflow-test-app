@@ -63,15 +63,12 @@ php artisan key:generate
 Ejecuta las migraciones de la base de datos:
 
 ```bash
-Copiar código
 php artisan migrate
-Ejecutar la Aplicación
 ```
-
+## Ejecutar la Aplicación
 Para iniciar el servidor de desarrollo de Laravel, ejecuta:
 
 ```bash
-Copiar código
 php artisan serve
 ```
 
@@ -84,17 +81,16 @@ La aplicación estará disponible en http://localhost:8000.
 <ul>
     <li>Descripción: Obtiene información de la API de StackOverflow.</li>
     <li>
-        <ul>
-            <li>Parámetros:</li>
+        <li>Parámetros:</li>
             <li>
                 <ul>
                     <li>`tagged`: (obligatorio) string</li>
                     <li>`fromdate`: (opcional) timestamp Unix</li>
                     <li>`todate`: (opcional) timestamp Unix</li>
                 </ul>
-            </li>
-            <li><strog>Respuesta</strog>: Respuesta en formato JSON de la API de StackOverflow o datos de la base de datos.</li>
-        </ul> 
+          </li>        
+    </li>
+    <li><strog>Respuesta</strog>: Respuesta en formato JSON de la API de StackOverflow o datos de la base de datos.</li>
     </li>
 </ul>
 
