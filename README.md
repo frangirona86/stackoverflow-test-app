@@ -1,66 +1,130 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# StackOverflow Test App
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este proyecto es una API REST desarrollada con Laravel 11 que consume información de la API de StackOverflow. El endpoint principal de la API es `/api` con el método `GET`. Esta aplicación restringe el acceso a otras rutas devolviendo un código de error `400`.
 
-## About Laravel
+## Tabla de Contenidos
+- [Características](#características)
+- [Instalación](#instalación)
+- [Configuración](#configuración)
+- [Ejecutar la Aplicación](#ejecutar-la-aplicación)
+- [Endpoints de la API](#endpoints-de-la-api)
+- [Modelos](#modelos)
+- [Validación de Solicitudes](#validación-de-solicitudes)
+- [Lógica del Controlador](#lógica-del-controlador)
+- [Capa de Servicio](#capa-de-servicio)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Características
+- Restringe todas las rutas excepto `/api` con un código de error `400`.
+- Acepta los siguientes parámetros:
+  - `tagged`: (obligatorio) string
+  - `fromdate`: (opcional) timestamp Unix
+  - `todate`: (opcional) timestamp Unix
+- Verifica en la base de datos solicitudes existentes antes de consultar la API de StackOverflow.
+- Almacena las solicitudes y respuestas de la API en la base de datos.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Instalación
+Clona el repositorio:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+```bash
+gh repo clone frangirona86/stackoverflow-test-app
+cd stackoverflow-test-app
+```
+Instala las dependencias:
 
-## Learning Laravel
+```bash
+composer install
+npm install
+npm run dev
+```
+## Configuración
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Copia el archivo de entorno de ejemplo y configura las variables de entorno:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```bash
+cp .env.example .env
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Actualiza las siguientes variables en el archivo .env:
 
-## Laravel Sponsors
+```makefile
+DB_CONNECTION=DB_CONNECTION
+DB_HOST=DB_HOST
+DB_PORT=DB_PORT
+DB_DATABASE=DB_DATABASE
+DB_USERNAME=DB_USERNAME
+DB_PASSWORD=DB_PASSWORD
+```
+Genera la clave de la aplicación:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+php artisan key:generate
+```
 
-### Premium Partners
+Ejecuta las migraciones de la base de datos:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+```bash
+Copiar código
+php artisan migrate
+Ejecutar la Aplicación
+```
 
-## Contributing
+Para iniciar el servidor de desarrollo de Laravel, ejecuta:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+Copiar código
+php artisan serve
+```
 
-## Code of Conduct
+La aplicación estará disponible en http://localhost:8000.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Endpoints de la API
 
-## Security Vulnerabilities
+### `GET /api`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+<ul>
+    <li>Descripción: Obtiene información de la API de StackOverflow.</li>
+    <li>
+        <ul>
+            <li>Parámetros:</li>
+            <li>
+                <ul>
+                    <li>`tagged`: (obligatorio) string</li>
+                    <li>`fromdate`: (opcional) timestamp Unix</li>
+                    <li>`todate`: (opcional) timestamp Unix</li>
+                </ul>
+            </li>
+            <li><strog>Respuesta</strog>: Respuesta en formato JSON de la API de StackOverflow o datos de la base de datos.</li>
+        </ul> 
+    </li>
+</ul>
 
-## License
+## Modelos
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### `ApiRequest`
+
+El modelo <strong>`ApiRequest`</strong> representa un registro de una solicitud de API realizada a la API de StackOverflow.
+
+## Validación de Solicitudes
+
+### `BaseRequest`
+La clase <strong>`BaseRequest`</strong> maneja la validación de los parámetros de la solicitud. Garantiza que se proporcione el parámetro <strong>`tagged`</strong> y ajusta los parámetros opcionales para cumplir con los requisitos de la API de StackOverflow.
+
+## Lógica del Controlador
+
+## `ApiRequestController`
+El <strong>`ApiRequestController`</strong> maneja las solicitudes entrantes al endpoint /api.
+
+Realiza los siguientes pasos:
+<ul>
+    <li>Valida la solicitud utilizando BaseRequest.</li>
+    <li>Verifica en la base de datos si existe una solicitud coincidente con los parámetros.</li>
+    <li>Si la solicitud existe, devuelve la respuesta.</li>
+    <li>Si la solicitud no existe, llama al ApiService para obtener datos de la API de StackOverflow.</li>
+    <li>Guarda la nueva solicitud y la respuesta en la tabla api_requests.</li>
+    <li>Devuelve la respuesta al cliente.</li>
+</ul>
+
+## Capa de Servicio
+### `ApiService`
+El <strong>`ApiService`</strong> es responsable de realizar solicitudes a la API de StackOverflow. Toma los parámetros validados y construye la consulta adecuada para obtener datos de StackOverflow.
+
